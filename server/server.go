@@ -30,10 +30,8 @@ func (s *Server) handleOncalls(w *responseWithStatus, r *http.Request) {
 		s.error(w, r, err)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	b, err := json.Marshal(schedules.Oncalls)
-	w.Write(b)
+	w.Write([]byte(schedules.String()))
 	return
 }
 

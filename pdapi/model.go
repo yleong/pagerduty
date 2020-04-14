@@ -63,7 +63,11 @@ func (s *Schedules) String() string {
 	var buff string
 	for _, o := range s.Oncalls {
 		if o.EscalationLevel == 1 {
-			buff += fmt.Sprintf("%+v\n", o)
+			prefix := ""
+			if o.Start.Weekday().String() == "Saturday" || o.Start.Weekday().String() == "Sunday" {
+				prefix = "*"
+			}
+			buff += fmt.Sprintf("%s%v, %v: %v\n", prefix, o.Start.Weekday(), o.Start, o.EscalationPolicy.Summary)
 		}
 	}
 	return buff

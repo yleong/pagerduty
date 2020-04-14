@@ -19,11 +19,11 @@ func (pd *PagerDuty) GetKey() string {
 	return pd.Key
 }
 
-//GetSchedules returns a Schedules with a month's worth of oncall schedules
+//GetSchedules returns a Schedules with 3 month's worth of oncall schedules
 func (pd *PagerDuty) GetSchedules() (*Schedules, error) {
 	//issue a http get to pagerduty APi using your token
-	date := getDate(1)
-	path := fmt.Sprintf("/oncalls?user_ids%%5B%%5D=%s&until=%s", pd.User, date)
+	date := getDate(3)
+	path := fmt.Sprintf("/oncalls?limit=100&user_ids%%5B%%5D=%s&until=%s", pd.User, date)
 	token := fmt.Sprintf("Token token=%s", pd.Key)
 
 	req, err := http.NewRequest("GET", pd.URL+path, nil)
