@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        Total: {{.Total}}
+        <table>
+            {{range .Oncalls}}
+            <tr>
+                <td>{{.EscalationLevel}}</td>
+            </tr>
+            {{end}}
+        </table>
+    </body>
+</html>
