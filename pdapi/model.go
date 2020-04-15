@@ -60,9 +60,10 @@ type Schedules struct {
 	Total   uint16   `json:"total"`
 }
 
+var t = template.Must(template.ParseFiles("./pdapi/schedules.xhtml"))
+
 //Render writes schedules out to HTML
 func (s *Schedules) Render(w http.ResponseWriter) error {
-	t := template.Must(template.ParseFiles("./pdapi/template.xhtml")) //TODO: remove hardcoded path and cache template
 	err := t.Execute(w, s)
 	return err
 }
