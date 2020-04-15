@@ -1,9 +1,9 @@
 package pdapi
 
 import (
-	"time"
 	"html/template"
-	"bytes"
+	"net/http"
+	"time"
 )
 
 //Entity can be either a user, schedule, or an escalation policy
@@ -60,21 +60,14 @@ type Schedules struct {
 	Total   uint16   `json:"total"`
 }
 
-func (s *Schedules) String() string {
-	sc := &Schedules{
-		Total: 1,
-		Oncalls: []Oncall{
-			{
-				EscalationLevel: 1,
-				Start: time.Date(2020, time.January, 12, 0, 0, 0, 0, time.UTC),
-			},
-			{
-				EscalationLevel: 2,
-			},
-		},
-	}
+//Render writes schedules out to HTML
+func (s *Schedules) Render(w http.ResponseWriter) error {
 	t := template.Must(template.ParseFiles("./pdapi/template.xhtml")) //TODO: remove hardcoded path and cache template
-	var buf bytes.Buffer
-	t.Execute(&buf, sc) //TODO: Execute on s instead
-	return buf.String()
+	err := t.Execute(w, s)
+	return err
+}
+
+//NiceStartDate returns Start with just date and no time.
+func (o *Oncall) NiceStartDate() string {
+	return o.Start.Format("2006-01-02")
 }

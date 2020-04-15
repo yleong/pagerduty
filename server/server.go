@@ -30,8 +30,11 @@ func (s *Server) handleOncalls(w *responseWithStatus, r *http.Request) {
 		s.error(w, r, err)
 		return
 	}
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(schedules.String()))
+	err = schedules.Render(w.ResponseWriter)
+	if err != nil {
+		s.error(w, r, err)
+		return
+	}
 	return
 }
 
