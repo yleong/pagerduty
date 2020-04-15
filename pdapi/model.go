@@ -66,6 +66,7 @@ func (s *Schedules) String() string {
 		Oncalls: []Oncall{
 			{
 				EscalationLevel: 1,
+				Start: time.Date(2020, time.January, 12, 0, 0, 0, 0, time.UTC),
 			},
 			{
 				EscalationLevel: 2,

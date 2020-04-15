@@ -6,9 +6,15 @@
         Total: {{.Total}}
         <table>
             {{range .Oncalls}}
+            {{if eq .EscalationLevel 1}}
             <tr>
-                <td>{{.EscalationLevel}}</td>
+                {{if eq .Start.Weekday.String "Saturday" "Sunday"}}
+                <td>*</td>
+                {{end}}
+                <td>{{.Start.Weekday}}</td>
+                <td>{{.Start}}</td>
             </tr>
+            {{end}}
             {{end}}
         </table>
     </body>
