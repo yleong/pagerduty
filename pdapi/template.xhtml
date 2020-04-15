@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        Total: {{.Total}}
+        <table>
+            {{range .Oncalls}}
+            {{if eq .EscalationLevel 1}}
+            <tr>
+                {{if eq .Start.Weekday.String "Saturday" "Sunday"}}
+                <td>*</td>
+                {{end}}
+                <td>{{.Start.Weekday}}</td>
+                <td>{{.Start}}</td>
+            </tr>
+            {{end}}
+            {{end}}
+        </table>
+    </body>
+</html>

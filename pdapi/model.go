@@ -1,8 +1,9 @@
 package pdapi
 
 import (
-	"fmt"
 	"time"
+	"html/template"
+	"bytes"
 )
 
 //Entity can be either a user, schedule, or an escalation policy
@@ -60,15 +61,20 @@ type Schedules struct {
 }
 
 func (s *Schedules) String() string {
-	var buff string
-	for _, o := range s.Oncalls {
-		if o.EscalationLevel == 1 {
-			prefix := ""
-			if o.Start.Weekday().String() == "Saturday" || o.Start.Weekday().String() == "Sunday" {
-				prefix = "*"
-			}
-			buff += fmt.Sprintf("%s%v, %v: %v\n", prefix, o.Start.Weekday(), o.Start, o.EscalationPolicy.Summary)
-		}
+	sc := &Schedules{
+		Total: 1,
+		Oncalls: []Oncall{
+			{
+				EscalationLevel: 1,
+				Start: time.Date(2020, time.January, 12, 0, 0, 0, 0, time.UTC),
+			},
+			{
+				EscalationLevel: 2,
+			},
+		},
 	}
-	return buff
+	t := template.Must(template.ParseFiles("./pdapi/template.xhtml")) //TODO: remove hardcoded path and cache template
+	var buf bytes.Buffer
+	t.Execute(&buf, sc) //TODO: Execute on s instead
+	return buf.String()
 }
