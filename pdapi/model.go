@@ -75,17 +75,6 @@ func (s *Schedules) String() string {
 	}
 	t := template.Must(template.ParseFiles("./pdapi/template.xhtml")) //TODO: remove hardcoded path and cache template
 	var buf bytes.Buffer
-	t.Execute(&buf, sc) //TODO: 
+	t.Execute(&buf, sc) //TODO: Execute on s instead
 	return buf.String()
-	// var buff string
-	// for _, o := range s.Oncalls {
-	// 	if o.EscalationLevel == 1 {
-	// 		prefix := ""
-	// 		if o.Start.Weekday().String() == "Saturday" || o.Start.Weekday().String() == "Sunday" {
-	// 			prefix = "*"
-	// 		}
-	// 		buff += fmt.Sprintf("%s%v, %v: %v\n", prefix, o.Start.Weekday(), o.Start, o.EscalationPolicy.Summary)
-	// 	}
-	// }
-	// return buff
 }
