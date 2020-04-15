@@ -1,7 +1,6 @@
 package server
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,18 +10,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/yleong/pagerduty/pdapi"
 )
-
-func (s *Server) handleConfig(w *responseWithStatus, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	b, err := json.Marshal(s)
-	if err != nil {
-		s.error(w, r, err)
-		return
-	}
-	w.Write(b)
-	return
-}
 
 func (s *Server) handleOncalls(w *responseWithStatus, r *http.Request) {
 	schedules, err := s.PD.GetSchedules()
@@ -47,7 +34,6 @@ func (s *Server) error(w *responseWithStatus, r *http.Request, err error) {
 //Listen starts a HTTP server on the specified port
 //The handlers return various pagerduty data
 func (s *Server) Listen() {
-	http.HandleFunc("/config", makeHandler(s.handleConfig))
 	http.HandleFunc("/oncalls", makeHandler(s.handleOncalls))
 	http.Handle("/metrics", promhttp.Handler())
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", s.Port), nil))
