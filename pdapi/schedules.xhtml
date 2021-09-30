@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    <table>
+    <table class="table">
             {{range .Oncalls}}
             {{if and (eq .EscalationLevel 1) (not (eq .NiceStartDate "0001-01-01"))}}
       <tr>
