@@ -3,6 +3,7 @@ package pdapi
 import (
 	"html/template"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -71,4 +72,13 @@ func (s *Schedules) Render(w http.ResponseWriter) error {
 //NiceStartDate returns Start with just date and no time.
 func (o *Oncall) NiceStartDate() string {
 	return o.Start.Format("2006-01-02")
+}
+
+//NiceSummary returns either 'Oncall' or 'Backup'
+func (o *Oncall) NiceSummary() string {
+	if strings.Contains(o.Schedule.Summary, "Backup") {
+		return "Backup"
+	}  else {
+		return "Oncall"
+	}
 }
